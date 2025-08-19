@@ -1,4 +1,5 @@
 import NextAuth from "next-auth"
+import type { NextAuthOptions } from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
 import bcrypt from "bcryptjs"
 import { prisma } from "@/lib/prisma"
@@ -33,7 +34,7 @@ declare module "next-auth/jwt" {
   }
 }
 
-export const { handlers, auth, signIn, signOut } = NextAuth({
+export const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
       id: "credentials",
@@ -48,8 +49,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         }
 
         try {
-          // Attempt to find user in database. If the database is not reachable,
-          // we'll fall back to demo credentials in the catch block below.
           const user = await prisma!.user.findUnique({
             where: {
               email: credentials.email,
@@ -66,7 +65,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
             return null
           }
 
-          // Update last login
           await prisma!.user.update({
             where: { id: user.id },
             data: { lastLogin: new Date() },
@@ -81,7 +79,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           }
         } catch (error) {
           console.error("Auth error:", error)
-          // Fallback to demo login if DB is not accessible
           if (credentials.email === "demo@example.com" && credentials.password === "demo123") {
             return {
               id: "demo-user",
@@ -99,16 +96,16 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        token.role = user.role
-        token.department = user.department
+        token.role = (user as any).role
+        token.department = (user as any).department
       }
       return token
     },
     async session({ session, token }) {
       if (token && session.user) {
         session.user.id = token.sub!
-        session.user.role = token.role as string
-        session.user.department = token.department as string
+        ;(session.user as any).role = token.role as string
+        ;(session.user as any).department = token.department as string
       }
       return session
     },
@@ -121,4 +118,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   },
   secret: process.env.NEXTAUTH_SECRET || "your-secret-key",
   debug: process.env.NODE_ENV === "development",
-})
+}
+
+export const { handlers, auth, signIn, signOut } = NextAuth(authOptions)

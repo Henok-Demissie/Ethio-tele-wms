@@ -1,7 +1,8 @@
 // lib/auth.ts
 import bcrypt from "bcryptjs";
 import { prisma } from "./prisma";
-import { auth } from "@/auth";
+import { authOptions } from "@/auth";
+import { getServerSession } from "next-auth";
 
 // Validates credentials and returns the user record without password when valid
 export async function signIn(email: string, password: string) {
@@ -16,8 +17,8 @@ export async function signIn(email: string, password: string) {
 
 // Returns the currently authenticated user based on NextAuth session
 export async function getCurrentUser() {
-  const session = await auth();
-  const userId = session?.user?.id;
+  const session = await getServerSession(authOptions as any);
+  const userId = (session as any)?.user?.id;
   if (!userId) return null;
   const user = await prisma.user.findUnique({ where: { id: userId } });
   if (!user) return null;
