@@ -4,6 +4,12 @@ import type { NextRequest } from "next/server"
 export default function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
 
+  // Normalize legacy route-group URLs like /(main)/dashboard -> /dashboard
+  if (pathname.startsWith('/(main)/')) {
+    const normalized = pathname.replace('/(main)/', '/')
+    return NextResponse.redirect(new URL(normalized, request.url))
+  }
+
   // Allow public routes
   const publicRoutes = ['/login', '/signup', '/forgot-password', '/reset-password']
   if (publicRoutes.includes(pathname)) {
