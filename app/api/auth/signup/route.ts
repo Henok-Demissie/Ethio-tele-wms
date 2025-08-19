@@ -35,14 +35,7 @@ export async function POST(request: NextRequest) {
       },
     })
 
-    // Set session cookie to automatically log in the user
-    const cookieStore = await cookies()
-    cookieStore.set("session_token", user.id, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "lax",
-      maxAge: 60 * 60 * 24 * 7, // 7 days
-    })
+    // Note: session is handled by NextAuth; do not set custom cookie here
 
     // Remove password from response
     const { password: _, ...userWithoutPassword } = user

@@ -12,6 +12,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Loader2, Building2 } from "lucide-react"
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel"
+import { signIn as nextAuthSignIn } from "next-auth/react"
 
 export default function LoginPage() {
   const [userEmail, setUserEmail] = useState("")
@@ -34,19 +35,14 @@ export default function LoginPage() {
     const password = mode === "user" ? userPassword : adminPassword
 
     try {
-      const response = await fetch("/api/auth/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        // role is optional; backend ignores today but useful for future
-        body: JSON.stringify({ email, password, role: mode.toUpperCase() }),
+      const result = await nextAuthSignIn("credentials", {
+        email,
+        password,
+        redirect: false,
       })
 
-      const data = await response.json()
-
-      if (!response.ok) {
-        setError(data.error || "Invalid email or password")
+      if (result?.error) {
+        setError(result.error || "Invalid email or password")
       } else {
         router.push("/")
         router.refresh()

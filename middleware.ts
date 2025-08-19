@@ -4,6 +4,14 @@ import type { NextRequest } from "next/server"
 export default function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
 
+  // Normalize legacy route-group URLs like /(main)/dashboard -> /dashboard
+  if (pathname.startsWith('/(main)/')) {
+    const normalized = pathname.replace('/(main)/', '/')
+    const url = new URL(normalized, request.url)
+    // Use rewrite to avoid extra 307 and preserve method
+    return NextResponse.rewrite(url)
+  }
+
   // Allow public routes
   const publicRoutes = ['/login', '/signup', '/forgot-password', '/reset-password']
   if (publicRoutes.includes(pathname)) {
@@ -17,8 +25,11 @@ export default function middleware(request: NextRequest) {
     return NextResponse.next()
   }
 
-  // Check for session token
-  const sessionToken = request.cookies.get('session_token')?.value
+  // Check for session token (NextAuth JWT cookie or legacy token)
+  const sessionToken =
+    request.cookies.get('__Secure-next-auth.session-token')?.value ||
+    request.cookies.get('next-auth.session-token')?.value ||
+    request.cookies.get('session_token')?.value
 
   // If no session token and trying to access protected route, redirect to login
   if (!sessionToken) {
