@@ -7,7 +7,9 @@ export default function middleware(request: NextRequest) {
   // Normalize legacy route-group URLs like /(main)/dashboard -> /dashboard
   if (pathname.startsWith('/(main)/')) {
     const normalized = pathname.replace('/(main)/', '/')
-    return NextResponse.redirect(new URL(normalized, request.url))
+    const url = new URL(normalized, request.url)
+    // Use rewrite to avoid extra 307 and preserve method
+    return NextResponse.rewrite(url)
   }
 
   // Allow public routes
