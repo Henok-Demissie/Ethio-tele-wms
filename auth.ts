@@ -55,34 +55,27 @@ export const authOptions: NextAuthOptions = {
             },
           })
 
-          // Auto-provision default accounts for convenience if not found
+          // If DB user not found, allow known demo credentials without DB writes
           if (!user) {
             const emailLower = credentials.email.toLowerCase()
             const password = credentials.password
             if (emailLower === "admin2@ethiotelecom.et" && password === "admin123") {
-              const hashedPassword = await bcrypt.hash(password, 12)
-              user = await prisma!.user.create({
-                data: {
-                  name: "Secondary Admin",
-                  email: "admin2@ethiotelecom.et",
-                  password: hashedPassword,
-                  role: "ADMIN",
-                  department: "IT",
-                  status: "ACTIVE",
-                },
-              })
-            } else if ((emailLower === "viewer@example.com" || emailLower === "user@example.com") && password === "user123") {
-              const hashedPassword = await bcrypt.hash(password, 12)
-              user = await prisma!.user.create({
-                data: {
-                  name: "Standard User",
-                  email: emailLower,
-                  password: hashedPassword,
-                  role: "VIEWER",
-                  department: "General",
-                  status: "ACTIVE",
-                },
-              })
+              return {
+                id: "admin-fallback",
+                name: "Secondary Admin",
+                email: "admin2@ethiotelecom.et",
+                role: "ADMIN",
+                department: "IT",
+              } as any
+            }
+            if ((emailLower === "viewer@example.com" || emailLower === "user@example.com") && password === "user123") {
+              return {
+                id: "viewer-fallback",
+                name: "Standard User",
+                email: emailLower,
+                role: "VIEWER",
+                department: "General",
+              } as any
             }
           }
 
