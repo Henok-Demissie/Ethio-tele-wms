@@ -6,5 +6,5 @@ export default async function HomePage() {
   if (!user) {
     redirect("/login");
   }
-  redirect("/(main)/dashboard");
+  redirect("/dashboard");
 }
