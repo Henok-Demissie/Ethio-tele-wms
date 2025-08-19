@@ -1,10 +1,17 @@
 "use client"
 
 import React, { createContext, useContext, useEffect, useState } from "react"
-import { User } from "./auth"
+
+interface AppUser {
+  id: string
+  name?: string | null
+  email?: string | null
+  role: string
+  department: string
+}
 
 interface AuthContextType {
-  user: User | null
+  user: AppUser | null
   loading: boolean
   signOut: () => void
   refreshUser: () => Promise<void>
@@ -13,7 +20,7 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [user, setUser] = useState<User | null>(null)
+  const [user, setUser] = useState<AppUser | null>(null)
   const [loading, setLoading] = useState(true)
 
   const refreshUser = async () => {

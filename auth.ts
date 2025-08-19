@@ -47,21 +47,9 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           return null
         }
 
-        // If database is not available, allow demo login
-        if (!isDatabaseAvailable()) {
-          if (credentials.email === "demo@example.com" && credentials.password === "demo123") {
-            return {
-              id: "demo-user",
-              name: "Demo User",
-              email: "demo@example.com",
-              role: "admin",
-              department: "IT Administration",
-            }
-          }
-          return null
-        }
-
         try {
+          // Attempt to find user in database. If the database is not reachable,
+          // we'll fall back to demo credentials in the catch block below.
           const user = await prisma!.user.findUnique({
             where: {
               email: credentials.email,
@@ -93,6 +81,16 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           }
         } catch (error) {
           console.error("Auth error:", error)
+          // Fallback to demo login if DB is not accessible
+          if (credentials.email === "demo@example.com" && credentials.password === "demo123") {
+            return {
+              id: "demo-user",
+              name: "Demo User",
+              email: "demo@example.com",
+              role: "ADMIN",
+              department: "IT Administration",
+            }
+          }
           return null
         }
       },

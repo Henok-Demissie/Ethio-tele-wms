@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server"
 import { signIn } from "@/lib/auth"
-import { cookies } from "next/headers"
 
 export async function POST(request: NextRequest) {
   try {
@@ -24,28 +23,9 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Set session cookie (in a real app, you'd use JWT tokens)
-    const cookieStore = await cookies()
-    cookieStore.set("session_token", user.id, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "lax",
-      maxAge: 60 * 60 * 24 * 7, // 7 days
-    })
+    // Session is handled via NextAuth JWT cookie; no manual cookie here
 
-    return NextResponse.json(
-      { 
-        message: "Login successful",
-        user: {
-          id: user.id,
-          name: user.name,
-          email: user.email,
-          role: user.role,
-          department: user.department,
-        }
-      },
-      { status: 200 }
-    )
+    return NextResponse.json({ message: "Login successful", user }, { status: 200 })
   } catch (error) {
     console.error("Login error:", error)
     return NextResponse.json(
