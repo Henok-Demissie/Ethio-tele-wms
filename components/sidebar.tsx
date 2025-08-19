@@ -41,7 +41,8 @@ export function Sidebar() {
   const { user } = useAuth()
   const role = (user?.role || "VIEWER").toUpperCase()
 
-  const isAdmin = role === "ADMIN" || role === "MANAGER" || role === "SUPERVISOR"
+  // Only true for ADMIN; hide admin-only layouts for all other roles
+  const isAdmin = role === "ADMIN"
 
   return (
     <div className="flex flex-col w-64 bg-white shadow-lg h-screen transition-all duration-300 hover:shadow-xl">
@@ -59,7 +60,7 @@ export function Sidebar() {
           </h3>
           {coreOperations
             // For non-admins, hide Suppliers
-            .filter((item) => isAdmin || (item.name !== "Suppliers"))
+            .filter((item) => isAdmin || item.name !== "Suppliers")
             .map((item) => {
             const isActive = pathname === item.href
             return (
@@ -84,7 +85,7 @@ export function Sidebar() {
         {/* Divider */}
         <div className="border-t border-gray-200 transition-colors duration-200 hover:border-gray-300"></div>
 
-        {/* Management & Analytics Section */}
+        {/* Management & Analytics Section (Admin only) */}
         {isAdmin && (
           <div className="space-y-2">
             <h3 className="px-3 text-xs font-semibold text-gray-500 uppercase tracking-wider transition-colors duration-200 hover:text-gray-700">
