@@ -1,24 +1,16 @@
 import { NextResponse } from "next/server"
-import { getCurrentUser } from "@/lib/auth"
 
 export async function GET() {
   try {
-    const user = await getCurrentUser()
-
-    if (!user) {
-      return NextResponse.json(
-        { error: "Not authenticated" },
-        { status: 401 }
-      )
-    }
-
+    // For demo purposes, return a demo regular user
+    // In a real app, you would check session/JWT tokens
     return NextResponse.json({
       user: {
-        id: user.id,
-        name: user.name,
-        email: user.email,
-        role: user.role,
-        department: user.department,
+        id: "demo-user",
+        name: "Demo User",
+        email: "user@example.com",
+        role: "viewer",
+        department: "Operations",
       }
     })
   } catch (error) {

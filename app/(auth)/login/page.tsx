@@ -48,8 +48,8 @@ export default function LoginPage() {
       if (!response.ok) {
         setError(data.error || "Invalid email or password")
       } else {
-        router.push("/")
-        router.refresh()
+        // Redirect to the home page
+        window.location.href = "/"
       }
     } catch (error) {
       setError("An error occurred. Please try again.")

@@ -13,8 +13,8 @@ import {
 import { Bell, Search, Settings, LogOut, User } from "lucide-react";
 import { useAuth } from "@/lib/auth-context";
 
-export function Header({ header = "Dashboard" }: { header?: string }) {
-  const { user, signOut } = useAuth();
+export function Header({ user, header = "Dashboard" }: { user?: any; header?: string }) {
+  const { signOut } = useAuth();
 
   const handleSignOut = () => {
     signOut();
