@@ -1,7 +1,9 @@
 "use client";
 
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Input } from "@/components/ui/input";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -10,14 +12,43 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { Bell, Search, Settings, LogOut, User } from "lucide-react";
 import { useAuth } from "@/lib/auth-context";
+import { useRouter } from "next/navigation";
 
 export function Header({ user, header = "Dashboard" }: { user?: any; header?: string }) {
   const { signOut } = useAuth();
+  const router = useRouter();
+  const [searchQuery, setSearchQuery] = useState("");
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
 
   const handleSignOut = () => {
     signOut();
+  };
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      // Navigate to search results or perform search
+      router.push(`/search?q=${encodeURIComponent(searchQuery)}`);
+      setIsSearchOpen(false);
+      setSearchQuery("");
+    }
+  };
+
+  const handleProfileClick = () => {
+    router.push("/profile");
+  };
+
+  const handleSettingsClick = () => {
+    router.push("/settings");
   };
 
   return (
@@ -28,18 +59,39 @@ export function Header({ user, header = "Dashboard" }: { user?: any; header?: st
         </div>
 
         <div className="flex items-center space-x-4">
-          <Button 
-            variant="ghost" 
-            size="icon"
-            className="transition-all duration-300 hover:bg-gray-100 hover:scale-110 hover:shadow-md"
-          >
-            <Search className="h-5 w-5 transition-transform duration-300 hover:scale-110" />
-          </Button>
+          <Dialog open={isSearchOpen} onOpenChange={setIsSearchOpen}>
+            <DialogTrigger asChild>
+              <Button 
+                variant="ghost" 
+                size="icon"
+                className="transition-all duration-300 hover:bg-gray-100 hover:scale-110 hover:shadow-md"
+              >
+                <Search className="h-5 w-5 transition-transform duration-300 hover:scale-110" />
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-md">
+              <DialogHeader>
+                <DialogTitle>Search</DialogTitle>
+              </DialogHeader>
+              <form onSubmit={handleSearch} className="space-y-4">
+                <Input
+                  placeholder="Search products, orders, suppliers..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full"
+                />
+                <Button type="submit" className="w-full">
+                  Search
+                </Button>
+              </form>
+            </DialogContent>
+          </Dialog>
 
           <Button 
             variant="ghost" 
             size="icon"
             className="transition-all duration-300 hover:bg-gray-100 hover:scale-110 hover:shadow-md"
+            onClick={() => router.push("/alerts")}
           >
             <Bell className="h-5 w-5 transition-transform duration-300 hover:scale-110" />
           </Button>
@@ -70,11 +122,17 @@ export function Header({ user, header = "Dashboard" }: { user?: any; header?: st
                 </div>
               </DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuItem className="transition-all duration-200 hover:bg-gray-100 hover:scale-105 cursor-pointer">
+              <DropdownMenuItem 
+                onClick={handleProfileClick}
+                className="transition-all duration-200 hover:bg-gray-100 hover:scale-105 cursor-pointer"
+              >
                 <User className="mr-2 h-4 w-4 transition-transform duration-200 hover:scale-110" />
                 <span>Profile</span>
               </DropdownMenuItem>
-              <DropdownMenuItem className="transition-all duration-200 hover:bg-gray-100 hover:scale-105 cursor-pointer">
+              <DropdownMenuItem 
+                onClick={handleSettingsClick}
+                className="transition-all duration-200 hover:bg-gray-100 hover:scale-105 cursor-pointer"
+              >
                 <Settings className="mr-2 h-4 w-4 transition-transform duration-200 hover:scale-110" />
                 <span>Settings</span>
               </DropdownMenuItem>

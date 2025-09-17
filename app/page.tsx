@@ -1,32 +1,18 @@
 "use client"
 
 import { useEffect, useState } from "react";
-import AdminLayout from "@/components/AdminLayout";
-import UserLayout from "@/components/UserLayout";
+import { useAuth } from "@/lib/auth-context";
+import { useRouter } from "next/navigation";
 
 export default function HomePage() {
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const { user, loading } = useAuth();
+  const router = useRouter();
 
   useEffect(() => {
-    // Check if user is logged in by trying to fetch user data
-    fetch("/api/auth/me")
-      .then(response => {
-        if (response.ok) {
-          return response.json();
-        }
-        return null;
-      })
-      .then(data => {
-        if (data?.user) {
-          setUser(data.user);
-        }
-        setLoading(false);
-      })
-      .catch(() => {
-        setLoading(false);
-      });
-  }, []);
+    if (!loading && !user) {
+      router.push("/login");
+    }
+  }, [user, loading, router]);
 
   if (loading) {
     return (
@@ -56,23 +42,7 @@ export default function HomePage() {
     );
   }
 
-  // Convert user to UserAccount type
-  const userAccount = {
-    id: user.id,
-    name: user.name || '',
-    email: user.email || '',
-    role: user.role as any,
-    department: user.department || '',
-    status: 'active' as const,
-    lastLogin: new Date().toISOString(),
-    createdDate: new Date().toISOString(),
-    permissions: [],
-    avatar: undefined
-  };
-
-  if (userAccount.role === "admin") {
-    return <AdminLayout user={userAccount} />;
-  } else {
-    return <UserLayout user={userAccount} />;
-  }
+  // Redirect to dashboard
+  router.push("/dashboard");
+  return null;
 }
