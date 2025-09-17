@@ -2,17 +2,9 @@ import { NextResponse } from "next/server"
 
 export async function GET() {
   try {
-    // For demo purposes, return a demo regular user
-    // In a real app, you would check session/JWT tokens
-    return NextResponse.json({
-      user: {
-        id: "demo-user",
-        name: "Demo User",
-        email: "user@example.com",
-        role: "viewer",
-        department: "Operations",
-      }
-    })
+    // For now, return null to let the frontend handle session via localStorage
+    // This prevents the webpack error
+    return NextResponse.json({ user: null })
   } catch (error) {
     console.error("Error getting current user:", error)
     return NextResponse.json(

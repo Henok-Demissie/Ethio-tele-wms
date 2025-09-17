@@ -39,7 +39,6 @@ export default function LoginPage() {
         headers: {
           "Content-Type": "application/json",
         },
-        // role is optional; backend ignores today but useful for future
         body: JSON.stringify({ email, password, role: mode.toUpperCase() }),
       })
 
@@ -48,8 +47,31 @@ export default function LoginPage() {
       if (!response.ok) {
         setError(data.error || "Invalid email or password")
       } else {
-        // Redirect to the home page
-        window.location.href = "/"
+        // Check if the user role matches the login mode
+        const userRole = data.user.role?.toUpperCase()
+        const expectedRole = mode.toUpperCase()
+        
+        // For admin login, only allow ADMIN, MANAGER, SUPERVISOR roles
+        if (mode === "admin" && !["ADMIN", "MANAGER", "SUPERVISOR"].includes(userRole)) {
+          setError("Access denied. Admin privileges required.")
+          return
+        }
+        
+        // For user login, only allow regular user roles
+        if (mode === "user" && ["ADMIN", "MANAGER", "SUPERVISOR"].includes(userRole)) {
+          setError("Please use the Admin Login tab for administrative accounts.")
+          return
+        }
+
+        // Store user session in localStorage
+        localStorage.setItem('wms-user', JSON.stringify(data.user))
+        
+        // Redirect based on role
+        if (["ADMIN", "MANAGER", "SUPERVISOR"].includes(userRole)) {
+          window.location.href = "/dashboard"
+        } else {
+          window.location.href = "/dashboard"
+        }
       }
     } catch (error) {
       setError("An error occurred. Please try again.")
@@ -126,6 +148,11 @@ export default function LoginPage() {
                         Sign up
                       </Link>
                     </div>
+                    <div className="text-xs text-gray-500 mt-4 p-3 bg-gray-50 rounded-lg">
+                      <strong>Demo User Account:</strong><br/>
+                      Email: user@example.com<br/>
+                      Password: user123
+                    </div>
                   </div>
                 </CardContent>
               </Card>
@@ -196,6 +223,12 @@ export default function LoginPage() {
                       <Link href="/signup" className="text-[hsl(82.7,78%,55.5%)] hover:underline font-medium">
                         Sign up
                       </Link>
+                    </div>
+                    <div className="text-xs text-gray-500 mt-4 p-3 bg-gray-50 rounded-lg">
+                      <strong>Demo Admin Accounts:</strong><br/>
+                      Email: admin@ethiotelecom.et | Password: admin123<br/>
+                      Email: admin@example.com | Password: admin123<br/>
+                      Email: manager@ethiotelecom.et | Password: manager123
                     </div>
                   </div>
                 </CardContent>

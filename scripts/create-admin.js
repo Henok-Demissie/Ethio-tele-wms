@@ -1,49 +1,47 @@
-const { PrismaClient } = require('@prisma/client')
-const bcrypt = require('bcryptjs')
+const bcrypt = require('bcryptjs');
+const { PrismaClient } = require('@prisma/client');
 
-const prisma = new PrismaClient()
+const prisma = new PrismaClient();
 
-async function main() {
-  const email = process.argv[2] || 'admin2@ethiotelecom.et'
-  const password = process.argv[3] || 'admin123'
-  const name = process.argv[4] || 'Secondary Admin'
+async function createAdminUser() {
+  try {
+    // Check if admin user already exists
+    const existingAdmin = await prisma.user.findFirst({
+      where: { role: 'ADMIN' }
+    });
 
-  const hashedPassword = await bcrypt.hash(password, 12)
+    if (existingAdmin) {
+      console.log('Admin user already exists:', existingAdmin.email);
+      return;
+    }
 
-  // If user exists, update role to ADMIN; else create
-  const existing = await prisma.user.findUnique({ where: { email } })
+    // Hash the password
+    const hashedPassword = await bcrypt.hash('admin123', 10);
 
-  if (existing) {
-    await prisma.user.update({
-      where: { email },
-      data: { role: 'ADMIN', password: hashedPassword, status: 'ACTIVE' },
-    })
-    console.log(`✅ Updated existing user to ADMIN: ${email}`)
-  } else {
-    await prisma.user.create({
+    // Create admin user
+    const adminUser = await prisma.user.create({
       data: {
-        name,
-        email,
+        name: 'System Administrator',
+        email: 'admin@ethiotelecom.com',
         password: hashedPassword,
         role: 'ADMIN',
-        department: 'IT',
+        department: 'IT Administration',
         status: 'ACTIVE',
-      },
-    })
-    console.log(`✅ Created new ADMIN user: ${email}`)
-  }
+        emailVerified: new Date(),
+      }
+    });
 
-  console.log(`\nYou can log in with:\nEmail: ${email}\nPassword: ${password}`)
+    console.log('Admin user created successfully:');
+    console.log('Email:', adminUser.email);
+    console.log('Password: admin123');
+    console.log('Role:', adminUser.role);
+    console.log('Department:', adminUser.department);
+
+  } catch (error) {
+    console.error('Error creating admin user:', error);
+  } finally {
+    await prisma.$disconnect();
+  }
 }
 
-main()
-  .catch((e) => {
-    console.error('❌ Error creating admin:', e)
-    process.exit(1)
-  })
-  .finally(async () => {
-    await prisma.$disconnect()
-  })
-
-
-
+createAdminUser();

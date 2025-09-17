@@ -18,10 +18,24 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const refreshUser = async () => {
     try {
+      // Check localStorage for user session first
+      const storedUser = localStorage.getItem('wms-user')
+      if (storedUser) {
+        const userData = JSON.parse(storedUser)
+        setUser(userData)
+        setLoading(false)
+        return
+      }
+
       const response = await fetch("/api/auth/me")
       if (response.ok) {
         const userData = await response.json()
-        setUser(userData.user)
+        if (userData.user) {
+          setUser(userData.user)
+          localStorage.setItem('wms-user', JSON.stringify(userData.user))
+        } else {
+          setUser(null)
+        }
       } else {
         setUser(null)
       }
@@ -37,6 +51,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     try {
       await fetch("/api/auth/logout", { method: "POST" })
       setUser(null)
+      localStorage.removeItem('wms-user')
       window.location.href = "/login"
     } catch (error) {
       console.error("Error signing out:", error)
