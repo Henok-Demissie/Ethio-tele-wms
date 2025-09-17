@@ -1,30 +1,39 @@
-# EthioTelecom Warehouse Management System
+# EthioTelecom Warehouse Management System (WMS)
 
-A comprehensive warehouse management system built with Next.js 14, TypeScript, and Prisma.
+A comprehensive warehouse management system built for EthioTelecom using Next.js 14, TypeScript, and Prisma.
 
-## Features
+## 🚀 Features
 
-- 📦 **Inventory Management** - Track products, quantities, and locations
-- 🏢 **Warehouse Management** - Manage multiple warehouses and their operations
-- 📥 **Stock In** - Handle incoming inventory and supplier management
-- 📤 **Stock Out** - Process outgoing inventory requests
-- 👥 **User Management** - Role-based access control
-- 📊 **Dashboard** - Real-time analytics and reporting
-- 🔍 **Audit Trail** - Complete tracking of all operations
-- 📋 **Reports** - Comprehensive reporting system
+### Core Functionality
+- **Dashboard**: Real-time overview of inventory, orders, and system status
+- **Inventory Management**: Track products, stock levels, and warehouse locations
+- **Order Processing**: Manage purchase orders, stock-in, and stock-out operations
+- **Supplier Management**: Maintain supplier information and relationships
+- **User Management**: Role-based access control for different user types
+- **Reports & Analytics**: Generate insights and reports on warehouse operations
 
-## Prerequisites
+### UI Components
+- **Search Functionality**: Global search across products, orders, suppliers, and users
+- **Profile Management**: User profile editing and activity tracking
+- **Responsive Design**: Mobile-friendly interface with modern UI components
+- **Interactive Navigation**: Sidebar navigation with role-based menu items
+- **Real-time Notifications**: Alert system for low stock and important updates
 
-- Node.js 18+ 
-- npm or yarn
-- PostgreSQL database (optional - system works with mock data)
+## 🛠️ Tech Stack
 
-## Quick Start
+- **Frontend**: Next.js 14, React 18, TypeScript
+- **Styling**: Tailwind CSS, Radix UI components
+- **Database**: SQLite with Prisma ORM
+- **Authentication**: NextAuth.js
+- **Icons**: Lucide React
+- **Charts**: Recharts
+
+## 📦 Installation
 
 1. **Clone the repository**
    ```bash
    git clone <repository-url>
-   cd ethiotelecom-warehouse
+   cd Ethio-tele-wms
    ```
 
 2. **Install dependencies**
@@ -32,112 +41,118 @@ A comprehensive warehouse management system built with Next.js 14, TypeScript, a
    npm install
    ```
 
-3. **Set up environment variables**
-   
-   Create a `.env.local` file in the root directory:
-   ```env
-   # Database Configuration (Optional)
-   DATABASE_URL="postgresql://username:password@localhost:5432/warehouse_db"
-   
-   # NextAuth Configuration
-   NEXTAUTH_SECRET="your-super-secret-key-here"
-   NEXTAUTH_URL="http://localhost:3000"
-   
-   # Application Configuration
-   NODE_ENV="development"
+3. **Set up the database**
+   ```bash
+   npx prisma generate
+   npx prisma db push
    ```
 
-4. **Run the development server**
+4. **Start the development server**
    ```bash
    npm run dev
    ```
 
 5. **Open your browser**
-   
    Navigate to [http://localhost:3000](http://localhost:3000)
 
-## Demo Mode
+## 🗄️ Database Schema
 
-If you don't have a database set up, the system will automatically run in demo mode with mock data.
+The system uses a comprehensive database schema with the following main entities:
 
-**Demo Login Credentials:**
-- Email: `demo@example.com`
-- Password: `demo123`
+- **Users**: Authentication and user management
+- **Products**: Inventory items with SKU, categories, and pricing
+- **Warehouses**: Physical storage locations
+- **Inventory**: Stock levels per product per warehouse
+- **Orders**: Purchase and internal orders
+- **Suppliers**: Vendor management
+- **Stock Movements**: Audit trail for all inventory changes
+- **Audit Logs**: System activity tracking
 
-## Database Setup (Optional)
+## 🔐 User Roles
 
-1. **Install PostgreSQL**
-2. **Create a database**
-   ```sql
-   CREATE DATABASE warehouse_db;
-   ```
-3. **Set up Prisma**
-   ```bash
-   npx prisma generate
-   npx prisma db push
-   ```
-4. **Seed the database**
-   ```bash
-   npx prisma db seed
-   ```
+- **ADMIN**: Full system access including user management
+- **MANAGER**: Access to all operational features
+- **SUPERVISOR**: Limited administrative access
+- **USER**: Basic operational access
+- **VIEWER**: Read-only access
 
-## Available Scripts
+## 🎯 Key Features Implemented
+
+### Search System
+- Global search across all entities
+- Real-time search results
+- Categorized search results
+- Search history and suggestions
+
+### Profile Management
+- User profile editing
+- Activity tracking
+- Role-based information display
+- Avatar and personal information management
+
+### Navigation
+- Role-based sidebar navigation
+- Active page highlighting
+- Responsive mobile navigation
+- Quick access to frequently used features
+
+## 🚀 Getting Started
+
+1. **Access the application** at `http://localhost:3000`
+2. **Login** with your credentials (or create a new account)
+3. **Explore the dashboard** to see system overview
+4. **Use the search** to find specific items
+5. **Manage your profile** from the user menu
+6. **Navigate** through different sections using the sidebar
+
+## 📱 Responsive Design
+
+The application is fully responsive and works on:
+- Desktop computers
+- Tablets
+- Mobile phones
+- Various screen sizes
+
+## 🔧 Development
+
+### Available Scripts
 
 - `npm run dev` - Start development server
 - `npm run build` - Build for production
 - `npm run start` - Start production server
 - `npm run lint` - Run ESLint
-- `npm run type-check` - Run TypeScript type checking
+- `npm run db:generate` - Generate Prisma client
+- `npm run db:push` - Push schema to database
 
-## Project Structure
+### Project Structure
 
 ```
 ├── app/                    # Next.js app directory
-│   ├── (main)/           # Main application routes
-│   ├── api/              # API routes
-│   └── globals.css       # Global styles
-├── components/            # Reusable components
-├── lib/                   # Utility libraries
-├── config/                # Configuration files
-└── prisma/                # Database schema and migrations
+│   ├── (auth)/            # Authentication pages
+│   ├── (main)/            # Main application pages
+│   └── api/               # API routes
+├── components/            # Reusable UI components
+├── lib/                   # Utility functions and configurations
+├── prisma/               # Database schema and migrations
+└── public/               # Static assets
 ```
 
-## Troubleshooting
-
-### Build Warnings
-
-If you see warnings about missing exports during build, ensure:
-- All API routes properly export GET/POST handlers
-- Environment variables are properly configured
-- Database connection is available (or system will use mock data)
-
-### Database Connection Issues
-
-The system gracefully handles missing database connections by:
-- Falling back to mock data
-- Providing demo functionality
-- Logging helpful error messages
-
-### Authentication Issues
-
-- Ensure `NEXTAUTH_SECRET` is set
-- Check `NEXTAUTH_URL` configuration
-- Verify database connection (if using real database)
-
-## Contributing
+## 🤝 Contributing
 
 1. Fork the repository
 2. Create a feature branch
 3. Make your changes
-4. Add tests if applicable
+4. Test thoroughly
 5. Submit a pull request
 
-## License
+## 📄 License
 
-This project is licensed under the MIT License.
+This project is proprietary software developed for EthioTelecom.
 
-## Support
+## 📞 Support
 
-For support and questions, please open an issue in the repository.
+For support and questions, please contact the development team.
 
+---
 
+**EthioTelecom Warehouse Management System** - Streamlining warehouse operations for better efficiency and control.
