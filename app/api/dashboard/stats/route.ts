@@ -61,24 +61,29 @@ export async function GET(request: NextRequest) {
       })
     ])
 
+    // Ensure we have arrays (mock client may return null for some calls)
+    const safeStockInRecords = Array.isArray(stockInRecords) ? stockInRecords : []
+
     // Calculate stock-in stats
     const stockInStats = {
-      todayReceipts: stockInRecords.length,
-      itemsReceived: stockInRecords.reduce((total, record) => 
-        total + record.orderItems.reduce((sum, item) => sum + item.quantity, 0), 0
+      todayReceipts: safeStockInRecords.length,
+      itemsReceived: safeStockInRecords.reduce((total, record: any) => 
+        total + (Array.isArray(record.orderItems) ? record.orderItems.reduce((sum: number, item: any) => sum + (item?.quantity ?? 0), 0) : 0), 0
       ),
-      pendingReceipts: stockInRecords.filter(r => r.status === "PENDING").length,
-      qualityIssues: stockInRecords.filter(r => r.status === "PARTIAL").length
+      pendingReceipts: safeStockInRecords.filter((r: any) => r?.status === "PENDING").length,
+      qualityIssues: safeStockInRecords.filter((r: any) => r?.status === "PARTIAL").length
     }
+
+    const safeStockOutRecords = Array.isArray(stockOutRecords) ? stockOutRecords : []
 
     // Calculate stock-out stats
     const stockOutStats = {
-      todayRequests: stockOutRecords.length,
-      itemsShipped: stockOutRecords.reduce((total, record) => 
-        total + record.orderItems.reduce((sum, item) => sum + item.quantity, 0), 0
+      todayRequests: safeStockOutRecords.length,
+      itemsShipped: safeStockOutRecords.reduce((total, record: any) => 
+        total + (Array.isArray(record.orderItems) ? record.orderItems.reduce((sum: number, item: any) => sum + (item?.quantity ?? 0), 0) : 0), 0
       ),
-      pendingRequests: stockOutRecords.filter(r => r.status === "PENDING").length,
-      completed: stockOutRecords.filter(r => r.status === "COMPLETED").length
+      pendingRequests: safeStockOutRecords.filter((r: any) => r?.status === "PENDING").length,
+      completed: safeStockOutRecords.filter((r: any) => r?.status === "COMPLETED").length
     }
 
     const stats = {

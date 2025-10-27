@@ -64,12 +64,30 @@ if (databaseUrl) {
 // build-time static generation from executing real DB calls and failing the
 // build. At runtime (production), ensure DATABASE_URL is provided.
 function createMockModel() {
+  // Return a proxy that provides common Prisma model methods with safe defaults.
   return new Proxy(
     {},
     {
-      get() {
-        return async () => {
-          return null
+      get(_t, method: string) {
+        switch (method) {
+          case "findMany":
+            return async (_args?: any) => []
+          case "findUnique":
+          case "findFirst":
+            return async (_args?: any) => null
+          case "count":
+            return async (_args?: any) => 0
+          case "aggregate":
+            return async (_args?: any) => ({})
+          case "create":
+          case "update":
+          case "upsert":
+          case "delete":
+            return async (_args?: any) => null
+          case "groupBy":
+            return async (_args?: any) => []
+          default:
+            return async () => null
         }
       },
     }
@@ -80,11 +98,11 @@ function createMockPrisma() {
   return new Proxy(
     {},
     {
-      get(_target, prop) {
-        // Common model operations
+      get(_target, prop: string) {
         if (prop === "$connect" || prop === "$disconnect") {
           return async () => {}
         }
+        // Return a mock model for any model access (e.g., prisma.user)
         return createMockModel()
       },
     }

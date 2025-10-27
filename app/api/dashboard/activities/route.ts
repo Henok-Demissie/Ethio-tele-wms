@@ -57,32 +57,37 @@ export async function GET(request: NextRequest) {
       })
     ])
 
-    // Combine and format activities
+    // Ensure arrays
+    const safeStockIn = Array.isArray(stockInActivities) ? stockInActivities : []
+    const safeStockOut = Array.isArray(stockOutActivities) ? stockOutActivities : []
+    const safeInventory = Array.isArray(inventoryActivities) ? inventoryActivities : []
+
+    // Combine and format activities (use optional chaining and fallbacks)
     const activities = [
-      ...stockInActivities.map(record => ({
+      ...safeStockIn.map((record: any) => ({
         id: `stock-in-${record.id}`,
         type: "STOCK_IN",
-        description: `Stock-in receipt ${record.orderNumber} from ${record.supplier.name}`,
-        status: record.status,
-        timestamp: record.createdAt,
-        user: record.createdBy.name,
+        description: `Stock-in receipt ${record.orderNumber ?? "N/A"} from ${record.supplier?.name ?? "Unknown Supplier"}`,
+        status: record?.status ?? "UNKNOWN",
+        timestamp: record?.createdAt ?? new Date().toISOString(),
+        user: record?.createdBy?.name ?? "Unknown",
         details: record
       })),
-      ...stockOutActivities.map(record => ({
+      ...safeStockOut.map((record: any) => ({
         id: `stock-out-${record.id}`,
         type: "STOCK_OUT",
-        description: `Stock-out request ${record.orderNumber} from ${record.warehouse.name}`,
-        status: record.status,
-        timestamp: record.createdAt,
-        user: record.createdBy.name,
+        description: `Stock-out request ${record.orderNumber ?? "N/A"} from ${record.warehouse?.name ?? "Unknown Warehouse"}`,
+        status: record?.status ?? "UNKNOWN",
+        timestamp: record?.createdAt ?? new Date().toISOString(),
+        user: record?.createdBy?.name ?? "Unknown",
         details: record
       })),
-      ...inventoryActivities.map(inv => ({
+      ...safeInventory.map((inv: any) => ({
         id: `inventory-${inv.id}`,
         type: "INVENTORY_UPDATE",
-        description: `Inventory updated for ${inv.product.name} (${inv.product.sku})`,
-        status: inv.quantity > 10 ? "IN_STOCK" : inv.quantity > 0 ? "LOW_STOCK" : "OUT_OF_STOCK",
-        timestamp: inv.updatedAt,
+        description: `Inventory updated for ${inv.product?.name ?? "Unknown Product"} (${inv.product?.sku ?? ""})`,
+        status: (typeof inv?.quantity === "number") ? (inv.quantity > 10 ? "IN_STOCK" : inv.quantity > 0 ? "LOW_STOCK" : "OUT_OF_STOCK") : "UNKNOWN",
+        timestamp: inv?.updatedAt ?? new Date().toISOString(),
         user: "System",
         details: inv
       }))
