@@ -1,0 +1,35 @@
+[
+  {
+    "id": "cmeidevwp0017158sx95163iy",
+    "productId": "cmeidevqi000a158sx2f61t16",
+    "warehouseId": "cmeidevoi0004158s3yqz3usb",
+    "type": "IN",
+    "quantity": 25,
+    "reference": "INIT-001",
+    "notes": "Initial stock setup",
+    "userId": "cmeidevn30000158sgtf1v254",
+    "createdAt": 1755597483529
+  },
+  {
+    "id": "cmeidevx60019158sxizwly36",
+    "productId": "cmeidevqr000b158sn6vfae3x",
+    "warehouseId": "cmeidevoi0004158s3yqz3usb",
+    "type": "IN",
+    "quantity": 150,
+    "reference": "INIT-002",
+    "notes": "Initial stock setup",
+    "userId": "cmeidevn30000158sgtf1v254",
+    "createdAt": 1755597483545
+  },
+  {
+    "id": "cmeidevxk001b158sahk9024j",
+    "productId": "cmeidevr5000c158shhbtgrlc",
+    "warehouseId": "cmeidevoi0004158s3yqz3usb",
+    "type": "IN",
+    "quantity": 45,
+    "reference": "INIT-003",
+    "notes": "Initial stock setup",
+    "userId": "cmeidevn30000158sgtf1v254",
+    "createdAt": 1755597483560
+  }
+]

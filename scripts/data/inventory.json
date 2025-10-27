@@ -1,0 +1,74 @@
+[
+  {
+    "id": "cmeidevso000h158sg0f3ijjw",
+    "productId": "cmeidevqi000a158sx2f61t16",
+    "warehouseId": "cmeidevoi0004158s3yqz3usb",
+    "quantity": 25,
+    "reservedQty": 2,
+    "location": "A1-B2",
+    "lastUpdated": 1755597483384
+  },
+  {
+    "id": "cmeidevt0000j158s5ek1lzxu",
+    "productId": "cmeidevqr000b158sn6vfae3x",
+    "warehouseId": "cmeidevoi0004158s3yqz3usb",
+    "quantity": 150,
+    "reservedQty": 10,
+    "location": "C3-D4",
+    "lastUpdated": 1755597483397
+  },
+  {
+    "id": "cmeidevt4000l158s9t4qnvn9",
+    "productId": "cmeidevr5000c158shhbtgrlc",
+    "warehouseId": "cmeidevoi0004158s3yqz3usb",
+    "quantity": 45,
+    "reservedQty": 5,
+    "location": "E5-F6",
+    "lastUpdated": 1755597483401
+  },
+  {
+    "id": "cmeidevti000n158ssid7g7vi",
+    "productId": "cmeidevrd000d158ss02tuls6",
+    "warehouseId": "cmeidevoi0004158s3yqz3usb",
+    "quantity": 80,
+    "reservedQty": 8,
+    "location": "G7-H8",
+    "lastUpdated": 1755597483414
+  },
+  {
+    "id": "cmeidevty000p158senpfstd5",
+    "productId": "cmeidevrq000e158sgnm4lxz2",
+    "warehouseId": "cmeidevoi0004158s3yqz3usb",
+    "quantity": 35,
+    "reservedQty": 3,
+    "location": "I9-J10",
+    "lastUpdated": 1755597483430
+  },
+  {
+    "id": "cmeidevub000r158szv06uh2c",
+    "productId": "cmeidevs4000f158su90qajtf",
+    "warehouseId": "cmeidevoi0004158s3yqz3usb",
+    "quantity": 120,
+    "reservedQty": 15,
+    "location": "K11-L12",
+    "lastUpdated": 1755597483444
+  },
+  {
+    "id": "cmeidevuj000t158svji5tqyg",
+    "productId": "cmeidevqi000a158sx2f61t16",
+    "warehouseId": "cmeidevoq0005158snnh22784",
+    "quantity": 10,
+    "reservedQty": 1,
+    "location": "A1-B1",
+    "lastUpdated": 1755597483451
+  },
+  {
+    "id": "cmeidevus000v158sgb3h6mc4",
+    "productId": "cmeidevqr000b158sn6vfae3x",
+    "warehouseId": "cmeidevoq0005158snnh22784",
+    "quantity": 50,
+    "reservedQty": 5,
+    "location": "C1-D1",
+    "lastUpdated": 1755597483461
+  }
+]

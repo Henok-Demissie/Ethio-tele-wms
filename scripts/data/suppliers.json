@@ -1,0 +1,47 @@
+[
+  {
+    "id": "cmeidevpf0007158stz18ufuj",
+    "name": "TechCorp Ethiopia",
+    "code": "TECH-001",
+    "email": "sales@techcorp.et",
+    "phone": "+251-11-123-4567",
+    "address": "Bole, Addis Ababa",
+    "city": "Addis Ababa",
+    "country": "Ethiopia",
+    "contactPerson": "John Smith",
+    "paymentTerms": "Net 30",
+    "isActive": 1,
+    "createdAt": 1755597483267,
+    "updatedAt": 1755597483267
+  },
+  {
+    "id": "cmeidevpu0008158s5cnbq218",
+    "name": "Network Solutions Ltd",
+    "code": "NET-001",
+    "email": "info@netsol.et",
+    "phone": "+251-11-234-5678",
+    "address": "Kazanchis, Addis Ababa",
+    "city": "Addis Ababa",
+    "country": "Ethiopia",
+    "contactPerson": "Sarah Johnson",
+    "paymentTerms": "Net 45",
+    "isActive": 1,
+    "createdAt": 1755597483282,
+    "updatedAt": 1755597483282
+  },
+  {
+    "id": "cmeidevq00009158s4fs980g4",
+    "name": "Power Systems Inc",
+    "code": "PWR-001",
+    "email": "contact@powersys.et",
+    "phone": "+251-11-345-6789",
+    "address": "Merkato, Addis Ababa",
+    "city": "Addis Ababa",
+    "country": "Ethiopia",
+    "contactPerson": "Michael Brown",
+    "paymentTerms": "Net 30",
+    "isActive": 1,
+    "createdAt": 1755597483289,
+    "updatedAt": 1755597483289
+  }
+]

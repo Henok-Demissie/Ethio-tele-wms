@@ -1,0 +1,52 @@
+[
+  {
+    "id": "cmeidevxq001d158s206ar9me",
+    "userId": "cmeidevn30000158sgtf1v254",
+    "action": "CREATE",
+    "entity": "INVENTORY",
+    "entityId": "cmeidevso000h158sg0f3ijjw",
+    "oldValues": null,
+    "newValues": "{\"productId\":\"cmeidevqi000a158sx2f61t16\",\"warehouseId\":\"cmeidevoi0004158s3yqz3usb\",\"quantity\":25,\"reservedQty\":2,\"location\":\"A1-B2\"}",
+    "createdAt": 1755597483567
+  },
+  {
+    "id": "cmeidevy3001f158slsiy1hyc",
+    "userId": "cmeidevnd0001158sr7fojmyz",
+    "action": "CREATE",
+    "entity": "ORDER",
+    "entityId": "cmeidevvg000z158sdw5fnsrm",
+    "oldValues": null,
+    "newValues": "{\"orderNumber\":\"PO-2024-001\",\"type\":\"PURCHASE\",\"status\":\"PENDING\",\"supplierId\":\"cmeidevpf0007158stz18ufuj\",\"warehouseId\":\"cmeidevoi0004158s3yqz3usb\",\"totalAmount\":75000}",
+    "createdAt": 1755597483579
+  },
+  {
+    "id": "cmeifnyzr000512k9irvn2kok",
+    "userId": "cmeidevn30000158sgtf1v254",
+    "action": "CREATE",
+    "entity": "ORDER",
+    "entityId": "cmeifnyy4000112k9m8liraz1",
+    "oldValues": null,
+    "newValues": "{\"orderNumber\":\"REC-1755601266593\",\"type\":\"PURCHASE\",\"supplierId\":\"cmeidevpu0008158s5cnbq218\",\"warehouseId\":\"cmeidevoi0004158s3yqz3usb\",\"totalAmount\":1200,\"itemsCount\":1}",
+    "createdAt": 1755601266663
+  },
+  {
+    "id": "cmeifovit000b12k98tibsxul",
+    "userId": "cmeidevn30000158sgtf1v254",
+    "action": "CREATE",
+    "entity": "ORDER",
+    "entityId": "cmeifovhr000712k9trx9u6ig",
+    "oldValues": null,
+    "newValues": "{\"orderNumber\":\"SO-1755601308780\",\"type\":\"SALE\",\"warehouseId\":\"cmeidevoq0005158snnh22784\",\"totalAmount\":0,\"itemsCount\":1,\"reason\":\"SALE\"}",
+    "createdAt": 1755601308821
+  },
+  {
+    "id": "cmeijytln00015yxmph6i536d",
+    "userId": "cmeidevn30000158sgtf1v254",
+    "action": "DELETE",
+    "entity": "INVENTORY",
+    "entityId": "cmeidevv4000x158s0uuhqyln",
+    "oldValues": "{\"productId\":\"cmeidevrd000d158ss02tuls6\",\"warehouseId\":\"cmeidevp00006158sr9upijpl\",\"quantity\":20,\"reservedQty\":2,\"location\":\"A1-B1\"}",
+    "newValues": null,
+    "createdAt": 1755608491351
+  }
+]

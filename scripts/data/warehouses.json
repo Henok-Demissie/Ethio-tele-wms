@@ -1,0 +1,47 @@
+[
+  {
+    "id": "cmeidevoi0004158s3yqz3usb",
+    "name": "Main Warehouse",
+    "code": "MW-001",
+    "address": "Addis Ababa Central",
+    "city": "Addis Ababa",
+    "country": "Ethiopia",
+    "manager": "Warehouse Manager",
+    "phone": "+251-11-123-4567",
+    "email": "main.warehouse@ethiotelecom.et",
+    "capacity": 10000,
+    "isActive": 1,
+    "createdAt": 1755597483235,
+    "updatedAt": 1755597483235
+  },
+  {
+    "id": "cmeidevoq0005158snnh22784",
+    "name": "Regional Warehouse North",
+    "code": "RWN-001",
+    "address": "Bahir Dar",
+    "city": "Bahir Dar",
+    "country": "Ethiopia",
+    "manager": "Regional Manager",
+    "phone": "+251-58-123-4567",
+    "email": "north.warehouse@ethiotelecom.et",
+    "capacity": 5000,
+    "isActive": 1,
+    "createdAt": 1755597483242,
+    "updatedAt": 1755597483242
+  },
+  {
+    "id": "cmeidevp00006158sr9upijpl",
+    "name": "Regional Warehouse South",
+    "code": "RWS-001",
+    "address": "Hawassa",
+    "city": "Hawassa",
+    "country": "Ethiopia",
+    "manager": "Regional Manager",
+    "phone": "+251-46-123-4567",
+    "email": "south.warehouse@ethiotelecom.et",
+    "capacity": 5000,
+    "isActive": 1,
+    "createdAt": 1755597483252,
+    "updatedAt": 1755597483252
+  }
+]
