@@ -1,0 +1,2 @@
+origin	https://github.com/Henok-Demissie/Ethio-tele-wms.git (fetch)
+origin	https://github.com/Henok-Demissie/Ethio-tele-wms.git (push)

@@ -165,3 +165,15 @@ node scripts/migrate-to-neon.js
 - Keep `.env.neon` out of version control. Use your hosting provider's secret storage.
 - Verify counts and sample rows after migration.
 - If you have large data, consider batching or more robust ETL tooling.
+
+## ⚙️ Continuous Deployment (GitHub Actions)
+
+You can add a simple GitHub Actions workflow to build the app on push and optionally deploy to Vercel. A sample workflow is included at `.github/workflows/deploy.yml`.
+
+Required repository secrets (for Vercel deploy step):
+- `VERCEL_TOKEN` — your Vercel personal token
+- `VERCEL_PROJECT_ID` — the Vercel project ID
+- `VERCEL_ORG_ID` — the Vercel organization ID (optional)
+
+If those secrets are not set, the workflow will still run the build step so CI will validate your project on each push.
+

@@ -16,6 +16,12 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
+# local build logs and temp files
+build-output.log
+*.log
+current-branch.txt
+git-status.txt
+
 # env files
 .env*
 .env
